@@ -89,6 +89,7 @@ CREATE TABLE achat(
     id_jeu int,
     note numeric(2, 1), -- Note sur 5 
     commentaire text,
+    date_achat date NOT NULL,
     PRIMARY KEY (pseudo, id_jeu),
     CONSTRAINT noteMAX CHECK (note <= 5),
     FOREIGN KEY (pseudo) REFERENCES joueur(pseudo),
@@ -100,6 +101,7 @@ CREATE TABLE partage(
     pseudo1 varchar(20),
     pseudo2 varchar(20),
     id_jeu int,
+    date_partage date NOT NULL,
     PRIMARY KEY (pseudo1, pseudo2, id_jeu),
     FOREIGN KEY (pseudo1) REFERENCES joueur(pseudo),
     FOREIGN KEY (pseudo2) REFERENCES joueur(pseudo),
