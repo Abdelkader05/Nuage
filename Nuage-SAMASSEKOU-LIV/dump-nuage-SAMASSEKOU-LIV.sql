@@ -19,22 +19,22 @@ CREATE TABLE entreprise(
 --Genre(Id_genre, nom_genre)
 CREATE TABLE genre(
     id_genre serial PRIMARY KEY,
-    nom_genre varchar(20)
+    nom_genre varchar(20) NOT NULL
 );
 
 --Porte_monnaie(Id_monnaie, solde)
 CREATE TABLE porte_monnaie(
     id_monnaie serial PRIMARY KEY,
-    solde int default 0
+    solde int default 0 NOT NULL
 );
 
 --Joueur(Id_joueur, pseudo, mdp, nom, mail, date_naissance, #Id_monnaie)
 CREATE TABLE joueur(
     pseudo varchar(20) PRIMARY KEY,
     mdp varchar(20) NOT NULL,
-    nom varchar(20),
-    mail varchar(50),
-    date_naissance date,
+    nom varchar(20) NOT NULL,
+    mail varchar(50) NOT NULL,
+    date_naissance date NOT NULL,
     id_monnaie int ,
     FOREIGN KEY (id_monnaie) REFERENCES porte_monnaie(id_monnaie)
 );
@@ -43,9 +43,9 @@ CREATE TABLE joueur(
 CREATE TABLE jeu(
     id_jeu serial PRIMARY KEY,
     titre varchar(50) NOT NULL, --On considére qu'un jeu n'a pas forcement un titre unique
-    prix numeric(5, 2) default 0,
-    date_sortie date,
-    age_min numeric(2, 0),
+    prix numeric(5, 2) default 0 NOT NULL,
+    date_sortie date NOT NULL,
+    age_min numeric(2, 0) NOT NULL,
     synopsis varchar(200), 
     nom_edite varchar(20), 
     nom_dev varchar(20),
@@ -56,7 +56,7 @@ CREATE TABLE jeu(
 -- Succes(Code, intitule, condition, #Id_jeu)
 CREATE TABLE succes(
     code varchar(4) PRIMARY KEY,
-    intitule varchar(30),
+    intitule varchar(30) NOT NULL,
     condition varchar(100),
     id_jeu int,
     FOREIGN KEY (id_jeu) REFERENCES jeu(id_jeu)
@@ -73,12 +73,12 @@ CREATE TABLE classer(
 
 -- Reapprovisionner(#Id_joueur, #Id_monnaie, date_transaction, montant)
 CREATE TABLE reapprovisionner(
-    pseudo varchar(20),
-    id_monnaie int,
+    id_reapprovision serial PRIMARY KEY,
+    pseudo varchar(20) NOT NULL,
+    id_monnaie int NOT NULL,
     date_transaction date NOT NULL,
     montant int NOT NULL,
     CONSTRAINT montant_min CHECK (montant > 0),
-    PRIMARY KEY (pseudo, id_monnaie),
     FOREIGN KEY (pseudo) REFERENCES joueur(pseudo),
     FOREIGN KEY (id_monnaie) REFERENCES porte_monnaie(id_monnaie)
 );
@@ -88,7 +88,7 @@ CREATE TABLE achat(
     pseudo varchar(20),
     id_jeu int,
     note numeric(2, 1), -- Note sur 5 
-    commentaire varchar(1000),
+    commentaire text,
     PRIMARY KEY (pseudo, id_jeu),
     CONSTRAINT noteMAX CHECK (note <= 5),
     FOREIGN KEY (pseudo) REFERENCES joueur(pseudo),
@@ -118,7 +118,7 @@ CREATE TABLE debloquer(
     FOREIGN KEY (code) REFERENCES succes(code)
 );
 
-CREATE MATERIALIZED VIEW rapport AS
+CREATE VIEW rapport AS
 (
     SELECT nom_edite, titre, nb_vente, nb_partage,
            vente_jeu.nb_vente * jeu.prix AS chiffre_affaire, --le chiffre d’affaire réalisé
