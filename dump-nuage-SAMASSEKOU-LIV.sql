@@ -28,7 +28,7 @@ CREATE TABLE porte_monnaie(
 CREATE TABLE joueur(
     pseudo varchar(20) PRIMARY KEY,
     mdp varchar(20) NOT NULL,
-    nom varchar(20) NOT NULL,
+    nom varchar(30) NOT NULL,
     mail varchar(50) NOT NULL,
     date_naissance date NOT NULL,
     id_monnaie int ,
