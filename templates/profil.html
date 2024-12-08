@@ -13,8 +13,8 @@
 </head>
 
 <div style="background-color: rgba(173, 216, 230, 0.15);">
-    <span class="user">UTILISATEUR : {{user[0]}}</span>
-    <span class="currency"><u>Solde :</u> {{user[1]}} €</span>
+    <span class="user">UTILISATEUR : {{user}}</span>
+    <span class="currency"><u>Solde :</u> {{ solde }} €</span>
     <header class="text-overlay-neon">
         <h1>NUAGE</h1>
     </header>
@@ -57,7 +57,7 @@
                     {% else%}
                     <h5>{{elem.prix}} €</h5>
                     {% endif %}
-                    <h6>{{elem.date_sortie}}</h6>
+                    <h6>{{elem.date_achat}}</h6>
                     {% if elem.note == None %}
                         <p>Aucune note</p>
                     {% else%}
@@ -79,25 +79,21 @@
         </div>
 </div>
 
-<div style="clear: both;">
-    <h1 >Liste des jeux : </h1>
-    <div class='allGame'>
-        {% for elem in lst_jeu %}
-        <div class='Game'>
-            <img src={{elem.url_img}}>
-            <h4>{{elem.titre}}</h4>
-            {% if elem.prix == 0.0 %}
-                <h5>Gratuit</h5>
-            {% else%}
-            <h5>{{elem.prix}} €</h5>
-            {% endif %}
-            <h6>{{elem.date_sortie}}</h6>
-            {% if elem.note == None %}
-                <p>Aucune note</p>
-            {% else%}
-                <p>{{elem.note}}<img class='star' src='../static/img/star.png'></p>
-            {% endif %}
+<div style="clear: both; padding-bottom: 30%;">
+    <h1 >Liste des jeux partagé avec moi: </h1>
+        <div  style="clear: both;">
+            {% for elem in lst_jeu_partager %}
+            <div style="clear: both;">
+                <div class='Game' style="float:left" >
+                    <img src={{elem.url_img}}>
+                    <h4>{{elem.titre}}</h4>
+                </div>
+                <ul>
+                    {% for partage in dic_succes_partager[elem.id_jeu] %}
+                        <li> {{ partage.pseudo1 }} en  {{ partage.date_partage }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor%}  
         </div>
-        {% endfor%}
-    </div>
 </div>

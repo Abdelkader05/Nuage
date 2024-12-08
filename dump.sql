@@ -190,7 +190,8 @@ INSERT INTO joueur (pseudo, mdp, nom, mail, date_naissance) VALUES
 ('Ava', 'ava123', 'Ava Martin', 'ava@mail.com', '1991-07-15'),
 ('James', 'james123', 'James Harris', 'james@mail.com', '1987-02-14'),
 ('Isabella', 'isabella123', 'Isabella Carter', 'isabella@mail.com', '1999-01-25'),
-('teste', 'isabella123', 'Isgfdter', 'isagsrgfgla@mail.com', '1999-01-25');
+('teste', '$2b$12$eASKoCGPtVBNratHd.xp5eGPyw5JA29Q84J/yFRUI6D9KYGPkCLwu', 'kayatoubeetayo', 'isagsrgfgla@mail.com', '1999-01-25'),
+('teste2', '$2b$12$eASKoCGPtVBNratHd.xp5eGPyw5JA29Q84J/yFRUI6D9KYGPkCLwu', 'kayatoubeetayo', 'KAKA@mail.com', '1999-01-25');
 
 -- Jeux
 INSERT INTO jeu (titre, prix, date_sortie, age_min, synopsis, nom_edite, nom_dev, url_img) VALUES
@@ -304,7 +305,10 @@ INSERT INTO reapprovisionner (pseudo, date_transaction, montant) VALUES
 ('Noah', '2024-11-20', 150),
 ('Ava', '2024-11-22', 900),
 ('James', '2024-11-25', 1100),
-('Isabella',  '2024-11-26', 1300);
+('James', '2024-11-25', 1100),
+('Isabella',  '2024-11-26', 1300),
+('teste',  '2024-11-26', 50000),
+('teste2',  '2024-11-26', 50000);
 
 -- Achats de jeux
 INSERT INTO achat (pseudo, id_jeu, note, commentaire, date_achat) VALUES
@@ -321,7 +325,10 @@ INSERT INTO achat (pseudo, id_jeu, note, commentaire, date_achat) VALUES
 ('teste', 10, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
 ('teste', 4, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
 ('teste', 2, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
-('teste', 1, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25');
+('teste', 1, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
+('teste2', 3, 4.9, 'Un jeu vraiment ffdghccxfgv conçu et riggdgdche en contenu.', '2024-11-25'),
+('teste2', 5, 4.9, 'Un jeu vraiment ffdghdtcfcvnçu et riggdgdche en contenu.', '2024-11-25'),
+('teste2', 6, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en sddfg.', '2024-11-25');
 
 
 -- Partages de jeux entre joueurs
@@ -330,7 +337,12 @@ INSERT INTO partage (pseudo1, pseudo2, id_jeu, date_partage) VALUES
 ('Liam', 'Mia', 3, '2024-11-07'),
 ('Lucas', 'Amelia', 5, '2024-11-12'),
 ('Noah', 'Ava', 7, '2024-11-16'),
-('James', 'Isabella', 9, '2024-11-22');
+('James', 'Isabella', 9, '2024-11-22'),
+('Isabella', 'teste', 9, '2024-11-22'),
+('James', 'teste', 9, '2024-11-22'),
+('teste2', 'teste', 3, '2024-11-22'),
+('teste2', 'teste', 5, '2024-11-22'),
+('teste2', 'teste', 6, '2024-11-22');
 
 -- Déblocages supplémentaires de succès
 INSERT INTO debloquer (pseudo, id_jeu, code, date_obtention) VALUES

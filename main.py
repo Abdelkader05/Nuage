@@ -29,11 +29,11 @@ def login():
             # On vérifie si le mdp correspond aux mdp hashés de l'utilisateur
             password_ctx = CryptContext(schemes=['bcrypt'])
             if password_ctx.verify(mdp, res.mdp): # Alors l'utilisateur s'est connecté avec succès
+                session['user_nickname'] = pseudo # On enregistre la session, pour éviter qu'il se reconnecte à chaque fois
                 cur.execute('SELECT solde FROM joueur WHERE pseudo = %s', (session['user_nickname'],))
                 for res in cur:
                     session['solde'] = res.solde
                 # On récupère le solde du joueur, qu'on va afficher tout le long du site
-                session['user_nickname'] = pseudo # On enregistre la session, pour éviter qu'il se reconnecte à chaque fois
 
                 return redirect(url_for("accueil"))
         return render_template ("/connexion/connexion.html", error = True, error_msg = "Nom d'utilisateur ou mot de passe incorrect !") ## Nom d'utilisateur incorrect
@@ -288,13 +288,21 @@ def profil():
         cur = conn.cursor()
         cur.execute('SELECT * FROM joueur WHERE pseudo = %s;', (session['user_nickname'],) )
         lst_joueur = cur.fetchone()
-        cur.execute('SELECT id_jeu, titre, prix, date_sortie, url_img, note FROM joueur NATURAL JOIN achat NATURAL JOIN jeu WHERE pseudo = %s;', (session['user_nickname'],))
+        cur.execute('SELECT id_jeu, titre, prix, url_img, date_achat, note FROM joueur NATURAL JOIN achat NATURAL JOIN jeu WHERE pseudo = %s ORDER BY date_achat;', (session['user_nickname'],))
         lst_jeu = cur.fetchall()
+        cur.execute('SELECT DISTINCT id_jeu, titre, url_img FROM partage NATURAL JOIN jeu WHERE pseudo2 = %s;', (session['user_nickname'],))
+        lst_jeu_partager = cur.fetchall()
         dic_succes =  {}
+        dic_succes_partager =  {}
         for ligne in lst_jeu:
-            cur.execute('SELECT intitule, condition, date_obtention FROM succes NATURAL LEFT JOIN ( SELECT * FROM debloquer WHERE id_jeu = %s  AND pseudo = %s) AS debloquer_jeu WHERE id_jeu = %s ;', (ligne.id_jeu, session['user_nickname'], ligne.id_jeu,))
+            cur.execute('SELECT intitule, condition, date_obtention FROM succes NATURAL LEFT JOIN ( SELECT * FROM debloquer WHERE id_jeu = %s  AND pseudo = %s) AS debloquer_jeu WHERE id_jeu = %s ORDER BY date_obtention ASC;', (ligne.id_jeu, session['user_nickname'], ligne.id_jeu,))
             dic_succes[ligne.id_jeu] = cur.fetchall()
-    return render_template("/profil.html", user = session['user_nickname'] , joueur = lst_joueur, lst_jeu = lst_jeu, dic_succes = dic_succes)
+        for ligne in lst_jeu_partager:
+            cur.execute('SELECT pseudo1, date_partage FROM partage WHERE id_jeu = %s  AND pseudo2 = %s ORDER BY date_partage;', (ligne.id_jeu, session['user_nickname'],))
+            dic_succes_partager[ligne.id_jeu] = cur.fetchall()
+        
+    return render_template("/profil.html", user = session['user_nickname'] , solde = session['solde'], joueur = lst_joueur,
+                           lst_jeu = lst_jeu, dic_succes = dic_succes, lst_jeu_partager = lst_jeu_partager, dic_succes_partager =dic_succes_partager)
 
 @app.route("/disconnect")
 def disconnect():
