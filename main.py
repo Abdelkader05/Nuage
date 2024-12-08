@@ -35,8 +35,10 @@ def login():
                 for res in cur:
                     solde = res.solde 
                 session['user_nickname'] = pseudo # On enregistre la session, pour éviter qu'il se reconnecte à chaque fois
+
                 return redirect(url_for("accueil"))
         return render_template ("/connexion/connexion.html", error = True, error_msg = "Nom d'utilisateur ou mot de passe incorrect !") ## Nom d'utilisateur incorrect
+
 
 @app.route("/connexion/cree_compte", methods=['POST'])
 def cree_compte():
@@ -253,12 +255,24 @@ def supp_filtre_recherche():
 def profil():
     if 'user_nickname' not in session:
         return redirect(url_for('connexion'))
-    return render_template("/profil.html", user = session['user_nickname'])
+    with db.connect() as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM joueur WHERE pseudo = %s;', (session['user_nickname'],) )
+        lst_joueur = cur.fetchone()
+        cur.execute('SELECT id_jeu, titre, prix, date_sortie, url_img, note FROM joueur NATURAL JOIN achat NATURAL JOIN jeu WHERE pseudo = %s;', (session['user_nickname'],))
+        lst_jeu = cur.fetchall()
+        dic_succes =  {}
+        for ligne in lst_jeu:
+            cur.execute('SELECT intitule, condition, date_obtention FROM succes NATURAL LEFT JOIN ( SELECT * FROM debloquer WHERE id_jeu = %s  AND pseudo = %s) AS debloquer_jeu WHERE id_jeu = %s ;', (ligne.id_jeu, session['user_nickname'], ligne.id_jeu,))
+            dic_succes[ligne.id_jeu] = cur.fetchall()
+    return render_template("/profil.html", user = session['user_nickname'] , joueur = lst_joueur, lst_jeu = lst_jeu, dic_succes = dic_succes)
 
 @app.route("/disconnect", methods = ['POST'])
 def disconnect():
     session.pop('user_nickname', None)
     return redirect(url_for('connexion'))
+
+
 
 if __name__ == '__main__':
   app.run()

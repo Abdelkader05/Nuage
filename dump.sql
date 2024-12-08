@@ -189,7 +189,8 @@ INSERT INTO joueur (pseudo, mdp, nom, mail, date_naissance) VALUES
 ('Noah', 'noah123', 'Noah White', 'noah@mail.com', '1993-03-23'),
 ('Ava', 'ava123', 'Ava Martin', 'ava@mail.com', '1991-07-15'),
 ('James', 'james123', 'James Harris', 'james@mail.com', '1987-02-14'),
-('Isabella', 'isabella123', 'Isabella Carter', 'isabella@mail.com', '1999-01-25');
+('Isabella', 'isabella123', 'Isabella Carter', 'isabella@mail.com', '1999-01-25'),
+('teste', 'isabella123', 'Isgfdter', 'isagsrgfgla@mail.com', '1999-01-25');
 
 -- Jeux
 INSERT INTO jeu (titre, prix, date_sortie, age_min, synopsis, nom_edite, nom_dev, url_img) VALUES
@@ -288,7 +289,9 @@ INSERT INTO succes (code, intitule, condition, id_jeu) VALUES
 ('S017', 'Voleur', 'Voler 100 véhicules dans Borderlands 3', 7),
 ('S018', 'Légende', 'Obtenir tous les champions dans League of Legends', 8),
 ('S019', 'Turbo', 'Compléter le jeu à 100% dans Sonic the Hedgehog', 9),
-('S020', 'Viking', 'Construire un village complet dans Assassin''s Creed Valhalla', 10);
+('S020', 'Viking', 'Construire un village complet dans Assassin''s Creed Valhalla', 10),
+('S021', 'Viking', '2Construire un village complet dans Assassin''s Creed Valhalla', 10),
+('S022', 'Viking', '3Construire un village complet dans Assassin''s Creed Valhalla', 10);
 
 -- Reapprovisionner (argent ajouté au porte-monnaie)
 INSERT INTO reapprovisionner (pseudo, date_transaction, montant) VALUES
@@ -314,7 +317,12 @@ INSERT INTO achat (pseudo, id_jeu, note, commentaire, date_achat) VALUES
 ('Noah', 7, 4.8, 'Trop fun, un véritable jeu de tir à la Borderlands!', '2024-11-19'),
 ('Ava', 8, 5.0, 'Le meilleur jeu multijoueur que j''ai joué.', '2024-11-21'),
 ('James', 9, 3.5, 'Je l''ai trouvé un peu facile mais très mignon.', '2024-11-23'),
-('Isabella', 10, 4.9, 'Un jeu vraiment bien conçu et riche en contenu.', '2024-11-25');
+('Isabella', 10, 4.9, 'Un jeu vraiment bien conçu et riche en contenu.', '2024-11-25'),
+('teste', 10, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
+('teste', 4, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
+('teste', 2, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25'),
+('teste', 1, 4.9, 'Un jeu vraiment ffdghdt conçu et riggdgdche en contenu.', '2024-11-25');
+
 
 -- Partages de jeux entre joueurs
 INSERT INTO partage (pseudo1, pseudo2, id_jeu, date_partage) VALUES
@@ -335,5 +343,7 @@ INSERT INTO debloquer (pseudo, id_jeu, code, date_obtention) VALUES
 ('Noah', 7, 'S017', '2024-11-20'),
 ('Ava', 8, 'S018', '2024-11-22'),
 ('James', 9, 'S019', '2024-11-24'),
-('Isabella', 10, 'S020', '2024-11-27');
+('Isabella', 10, 'S020', '2024-11-27'),
+('teste', 10, 'S020', '2024-11-27'),
+('teste', 10, 'S021', '2024-11-27');
 

@@ -31,3 +31,73 @@
         <input class="disconnect" type=submit value="← Se déconnecter">
     </form>
 </div>
+
+
+<div style="padding-bottom: 30%;">
+    <title>Info</title>
+    <img src="../static/img/joueur_default.png" alt="Avatar joueur" width="30%" height="20%"  style="float:left">
+    <p>
+        <h2>{{ joueur.nom }}</h2>
+        date de naissance: {{ joueur.date_naissance }} <br>
+        mail: {{ joueur.mail }}
+    </p>
+ 
+</div>
+
+<div style="clear: both; padding-bottom: 30%;">
+    <h1 >Liste des jeux : </h1>
+        <div  style="clear: both;">
+            {% for elem in lst_jeu %}
+            <div style="clear: both;">
+                <div class='Game' style="float:left" >
+                    <img src={{elem.url_img}}>
+                    <h4>{{elem.titre}}</h4>
+                    {% if elem.prix == 0.0 %}
+                        <h5>Gratuit</h5>
+                    {% else%}
+                    <h5>{{elem.prix}} €</h5>
+                    {% endif %}
+                    <h6>{{elem.date_sortie}}</h6>
+                    {% if elem.note == None %}
+                        <p>Aucune note</p>
+                    {% else%}
+                        <p>{{elem.note}}<img class='star' src='../static/img/star.png'></p>
+                    {% endif %}
+                </div>
+                <ul >
+                    {% for succe in dic_succes[elem.id_jeu] %}
+                        {% if succe.date_obtention != None %}
+                            <li><img src="../static/img/valide.png" alt="succe valider" width="2%" height="2%"> {{ succe.intitule }} en  {{ succe.date_obtention }}:  {{ succe.condition }}</li>
+                        {% else%}
+                            <li><img src="../static/img/invalide.png" alt="succe invalider" width="2%" height="2%"> {{ succe.intitule }}:  {{ succe.condition }}</li>
+                        {% endif %}
+        
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor%}  
+        </div>
+</div>
+
+<div style="clear: both;">
+    <h1 >Liste des jeux : </h1>
+    <div class='allGame'>
+        {% for elem in lst_jeu %}
+        <div class='Game'>
+            <img src={{elem.url_img}}>
+            <h4>{{elem.titre}}</h4>
+            {% if elem.prix == 0.0 %}
+                <h5>Gratuit</h5>
+            {% else%}
+            <h5>{{elem.prix}} €</h5>
+            {% endif %}
+            <h6>{{elem.date_sortie}}</h6>
+            {% if elem.note == None %}
+                <p>Aucune note</p>
+            {% else%}
+                <p>{{elem.note}}<img class='star' src='../static/img/star.png'></p>
+            {% endif %}
+        </div>
+        {% endfor%}
+    </div>
+</div>
